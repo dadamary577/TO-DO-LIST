@@ -1,33 +1,68 @@
-// Simple typing effect
-const typedWords = ["Content", "Blogs", "Stories", "Ideas"];
-let i = 0, j = 0, current = "", isDeleting = false;
-const typedEl = document.getElementById("typed");
 
-function type() {
-  current = typedWords[i];
-  typedEl.textContent = current.substring(0, j);
-  if (!isDeleting && j < current.length) {
-    j++;
-    setTimeout(type, 150);
-  } else if (isDeleting && j > 0) {
-    j--;
-    setTimeout(type, 100);
-  } else {
-    isDeleting = !isDeleting;
-    if (!isDeleting) i = (i+1) % typedWords.length;
-    setTimeout(type, 1000);
+
+    // Select elements
+const taskInput = document.getElementById('taskInput');
+const taskList = document.getElementById('taskList');
+const addBtn = document.getElementById('addBtn');
+
+function addTask() {
+  const taskText = taskInput.value.trim(); // ✅ Correct variable name
+
+  if (taskText === '') {
+    alert('Please enter a task!');
+    return;
+  }
+
+  // Create list item
+  const li = document.createElement('li');
+  li.textContent = taskText;
+
+  // Toggle completed on click
+  li.addEventListener('click', function () {
+    li.classList.toggle('completed');
+  });
+
+  // Create delete button
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = 'Delete';
+  deleteBtn.className = 'delete-btn';
+
+  deleteBtn.addEventListener('click', function (event) {
+    event.stopPropagation(); // Prevent toggling completed
+    taskList.removeChild(li);
+  });
+
+  // Append delete button to list item
+  li.appendChild(deleteBtn);
+  taskList.appendChild(li);
+
+  // Clear input
+  taskInput.value = '';
+}
+
+// Event listeners
+addBtn.addEventListener('click', addTask);
+taskInput.addEventListener('keypress', function (event) {
+  if (event.key === 'Enter') {
+    addTask();
+  }
+});
+const nameInput =  document.getElementById("nameInput");
+const nameOutput = document.getElementById("nameOutput")
+
+function showgreeting() {
+  const name = nameInput.value.trim(); 
+  if (name!== " ") {
+    nameOutput.textContent = "Hello, " + name + "!"
+  }
+  else{
+    nameOutput.textContent = "Hello!";
   }
 }
-type();
+  nameInput.addEventListener("input", showgreeting);
 
-// Testimonial carousel
-let index = 0;
-const testimonials = document.querySelectorAll(".testimonial");
-function showTestimonial() {
-  testimonials.forEach(t => t.classList.remove("active"));
-  testimonials[index].classList.add("active");
-  index = (index + 1) % testimonials.length;
-}
-setInterval(showTestimonial, 4000);
 
-  
+ 
+
+ 
+
